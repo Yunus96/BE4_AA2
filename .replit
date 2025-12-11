@@ -18,9 +18,6 @@ args = "Run App"
 name = "Run App"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node index.js"
 
 [workflows.workflow.metadata]
 outputType = "console"
