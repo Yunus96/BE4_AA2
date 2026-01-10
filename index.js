@@ -2,6 +2,7 @@ const express = require("express");
 const { initializeDatabase } = require("./db/db.connect.js");
 const Movie = require("./models/movie.model.js");
 const Hotel = require("./models/hotel.model.js");
+const Book = require("./models/book.model.js");
 const Recipe = require("./models/recipe.model.js");
 
 const app = express();
@@ -234,6 +235,40 @@ app.get("/movies/genres/:genreName", async (req, res) => {
     }
   } catch (error) {
   res.status(500).json({ error: "Failed to fetch movies." })
+  }
+});
+
+//BI1.1_HW1
+app.get("/books", async (req, res) => {
+  try {
+    const books = await Book.find();
+    res.json(books);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/books/title/:title", async (req, res) => {
+  try {
+    const book = await Book.findOne({ title: req.params.title });
+    if (!book) {
+      return res.status(404).json({ message: "Book does not exist" });
+    }
+    res.json(book);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/books/author/:author", async (req, res) => {
+  try {
+    const books = await Book.find({ author: req.params.author });
+    if (!books) {
+      return res.status(404).json({ message: "Book does not exist" });
+    }
+    res.json(books);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
