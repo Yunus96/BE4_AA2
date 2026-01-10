@@ -1,6 +1,7 @@
 const express = require("express");
 const { initializeDatabase } = require("./db/db.connect.js");
 const Movie = require("./models/movie.model.js");
+const Hotel = require("./models/hotel.model.js");
 const Recipe = require("./models/recipe.model.js");
 
 const app = express();
@@ -233,6 +234,32 @@ app.get("/movies/genres/:genreName", async (req, res) => {
     }
   } catch (error) {
   res.status(500).json({ error: "Failed to fetch movies." })
+  }
+});
+
+//BI1.1_HW2
+app.get("/hotels", async (req, res) => {
+  try {
+    const hotels = await Hotel.find();
+    res.json(hotels);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/hotels/:hotelName", async (req, res) => {
+  try {
+    const hotel = await Hotel.findOne({
+      name: req.params.hotelName,
+    });
+
+    if (!hotel) {
+      return res.status(404).json({ message: "Hotel not found" });
+    }
+
+    res.json(hotel);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
