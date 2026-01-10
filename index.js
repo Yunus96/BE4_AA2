@@ -73,7 +73,6 @@ app.put("/difficulty/:id", async (req, res) => {
     if (!recipe) {
       return res.status(404).json({ error: "Recipe not found" });
     }
-
     res.json(recipe);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -114,6 +113,114 @@ app.delete("/:id", async (req, res) => {
     res.json({ message: "Recipe deleted successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+});
+
+//Backend for BI1.1_CW
+
+async function readAllMovies(){
+  try{
+    const allMovies = await Movie.find()
+    return allMovies;
+  } catch(error){
+    throw error
+  }
+}
+app.get("/movies", async (req, res) => {
+  try{
+      const movies = await readAllMovies( )
+      if(movies.length != 0){
+        res.json(movies)
+      } else {
+        res.status(404).json({ error: "No movies found."})
+      }
+    } catch (error) {
+      res.status(500).json({error: "Failed to fetch movies."})
+    }
+})
+
+async function readMovieByTitle(movieTitle){
+  try{
+    const movie = await Movie.findOne({title: movieTitle})
+    return movie;
+  } catch(error){
+    throw error
+  }
+}
+
+app.get("/movies/:title", async (req, res) => {
+  try {
+      const movie = await readMovieByTitle(req.params.title)
+      if (movie) {
+      res.json(movie)
+    } else {
+      res.status(484).json({ error: 'Movie not found.' })
+    }} catch (error) {
+      res.status(500).json({ error: "Failed to fetch movie." })
+    }
+});
+
+async function createMovie(newMovie) {
+  try {
+    const movie = new Movie(newMovie)
+    const saveMovie = await movie.save( )
+    return saveMovie
+  } catch (error) {
+    throw error
+  }
+}
+app.post("/movies", async (req, res) => {
+  try {
+    const savedMovie = await createMovie(req.body)
+    res.status(201).json({ message: "Movie added successfully.", movie:
+    savedMovie })
+  } catch (error) {
+  res.status(500).json({ error: "Failed to add movie" })
+  }
+})
+
+// get movte by director name
+async function readMovieByDirector(directorName) {
+  try {
+  const movieByDirector = await Movie. find({ director: directorName })
+  return movieByDirector
+  } catch (error) {
+  console. log(error)
+  }
+}
+
+app.get("/movies/director/:directorName", async (req, res) => {
+  try {
+    const movies = await readMovieByDirector(req.params.directorName)
+    if (movies.length != 0) {
+      res.json(movies)
+    } else {
+    res.status(404).json({ error: "No movies found." })
+    }
+  } catch (error) {
+  res.status(500).json({ error: "Failed to fetch movies." })
+  }
+});
+
+async function readMovieByGenre(genreName) {
+  try {
+    const movieByGenre = await Movie.find({ genre: genreName })
+    return movieByGenre
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+app.get("/movies/genres/:genreName", async (req, res) => {
+  try {
+    const movies = await readMovieByGenre(req.params.genreName)
+    if (movies.length != 0) {
+      res.json(movies)
+    } else {
+      res.status(404).json({ error: "No movies found." })
+    }
+  } catch (error) {
+  res.status(500).json({ error: "Failed to fetch movies." })
   }
 });
 
