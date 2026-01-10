@@ -1,5 +1,6 @@
 const express = require("express");
 const { initializeDatabase } = require("./db/db.connect.js");
+const Movie = require("./models/movie.model.js");
 const Recipe = require("./models/recipe.model.js");
 
 const app = express();
@@ -128,7 +129,8 @@ async function readAllMovies(){
 }
 app.get("/movies", async (req, res) => {
   try{
-      const movies = await readAllMovies( )
+      const movies = await readAllMovies()
+ 
       if(movies.length != 0){
         res.json(movies)
       } else {
