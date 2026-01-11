@@ -239,6 +239,16 @@ app.get("/movies/genres/:genreName", async (req, res) => {
 });
 
 //BI1.1_HW1
+app.post("/books", async (req, res) => {
+  try {
+    const book = new Book(req.body);
+    const savedBook = await book.save();
+    res.status(201).json(savedBook);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 app.get("/books", async (req, res) => {
   try {
     const books = await Book.find();
