@@ -238,6 +238,18 @@ app.get("/movies/genres/:genreName", async (req, res) => {
   }
 });
 
+app.delete("/movie/delete/:id", async (req, res) => {
+  try {
+    const movie = await Movie.findByIdAndDelete(req.params.id);
+    if (!movie) {
+      return res.status(404).json({ error: "Movie not found" });
+    }
+    res.json({ message: "Movie deleted successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 //BI1.1_HW1
 app.post("/books", async (req, res) => {
   try {
