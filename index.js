@@ -283,6 +283,22 @@ app.get("/books/author/:author", async (req, res) => {
 });
 
 //BI1.1_HW2
+app.post("/hotels", async (req, res) => {
+  try {
+    const hotel = new Hotel(req.body);
+    const savedHotel = await hotel.save();
+
+    res.status(201).json({
+      message: "Hotel created successfully",
+      data: savedHotel,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+});
+
 app.get("/hotels", async (req, res) => {
   try {
     const hotels = await Hotel.find();

@@ -68,9 +68,9 @@ const hotelSchema = new mongoose.Schema(
     priceRange: {
       type: String,
       enum: [
-        "$$ (11-30)",
-        "$$$ (31-60)",
-        "$$$$ (61+)",
+        "$ (11-30)",
+        "$ (31-60)",
+        "$ (61+)",
         "Other",
       ],
     },
