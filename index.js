@@ -1,8 +1,6 @@
 const express = require("express");
 const { initializeDatabase } = require("./db/db.connect.js");
 const Movie = require("./models/movie.model.js");
-const Hotel = require("./models/hotel.model.js");
-const Book = require("./models/book.model.js");
 const Recipe = require("./models/recipe.model.js");
 
 const app = express();
